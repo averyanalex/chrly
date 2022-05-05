@@ -8,7 +8,7 @@ ARG BUILD_COMMIT=unknown
 ARG BUILD_TYPE=release
 
 COPY go.mod go.sum ./
-RUN go mod download
+RUN go mod download -x
 
 COPY . .
 
@@ -17,7 +17,7 @@ RUN export BUILD_TAGS="" \
       export BUILD_TAGS="$BUILD_TAGS --tags profiling"; \
     fi \
  && env CGO_ENABLED=0 \
-    go build "$BUILD_TAGS" \
+    go build $BUILD_TAGS \
     -v \
     -o chrly \
     -ldflags "-X github.com/elyby/chrly/version.version=${BUILD_VERSION} -X github.com/elyby/chrly/version.commit=${BUILD_COMMIT}"
